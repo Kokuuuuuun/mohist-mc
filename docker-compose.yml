@@ -1,25 +1,8 @@
-# @format
-
-version: "3.8"
+version: '3.8'
 
 services:
   # ------------------------------------------------------------------
-  #  Cloudflare Tunnel (TCP) para mc.theoasiss.us
-  # ------------------------------------------------------------------
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: mc-tunnel
-    restart: unless-stopped
-    environment:
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
-    command: tunnel --config /etc/cloudflared/config.yml run --token ${TUNNEL_TOKEN}
-    volumes:
-      - ./config/ingress.yaml:/etc/cloudflared/config.yml:ro
-    networks:
-      - coolify
-
-  # ------------------------------------------------------------------
-  #  Servidor Minecraft Mohist 1.20.1
+  # Servidor Minecraft Mohist 1.20.1
   # ------------------------------------------------------------------
   mohist:
     build:
@@ -27,39 +10,36 @@ services:
       dockerfile: Dockerfile
     container_name: minecraft-mohist-1201
     volumes:
-      - mc-server:/server # /server completo persistente
+      - mc-server:/server
     environment:
       EULA: "TRUE"
+    restart: unless-stopped
     networks:
       - coolify
-    restart: unless-stopped
     expose:
-      - "25565" # solo visible dentro de la red coolify
+      - "25565"   # Solo dentro de la red Docker
 
   # ------------------------------------------------------------------
-  #  HAProxy - Proxy TCP para Minecraft
+  # Playit Tunnel
   # ------------------------------------------------------------------
-  haproxy:
-    image: haproxy:alpine
-    container_name: minecraft-haproxy
-    volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+  playit:
+    image: playitcloud/playit-agent:latest
+    container_name: playit-agent
+    restart: unless-stopped
     networks:
       - coolify
-    depends_on:
-      - mohist
-    restart: unless-stopped
-    ports:
-      - "25565:25565" # expone el proxy hacia fuera
+    volumes:
+      - ./playit.yml:/playit.yml  # tu archivo de config Playit
+    command: ["playit", "--config", "/playit.yml"]
 
 # ------------------------------------------------------------------
-#  Volumen persistente (todo /server)
+# Volumen persistente para Minecraft
 # ------------------------------------------------------------------
 volumes:
   mc-server:
 
 # ------------------------------------------------------------------
-#  Red externa que gestiona Coolify
+# Red externa gestionada por Coolify
 # ------------------------------------------------------------------
 networks:
   coolify:
