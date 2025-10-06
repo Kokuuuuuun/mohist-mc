@@ -6,5 +6,5 @@ version: 1
 tunnels:
   - name: "Minecraft Mohist 1.20.1"
     proto: tcp
-    local: minecraft-mohist-1201:25565
+    local: mohist-isks00wkkw4s4ockgw0wcc4c-210950251007:25565
     remote: 25565
