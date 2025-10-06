@@ -2,13 +2,18 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /server
 
-# Copiar tu jar y configs iniciales
-COPY server-files/ /server/
+# 1. Copiar configuraciones iniciales (sin mods/plugins para no pisar el volumen)
+COPY server-files/eula.txt server-files/server.properties ./
 
-# Volumen para datos persistentes
-VOLUME ["/server/world", "/server/config", "/server/mods", "/server/plugins"]
+# 2. Copiar mods y plugins que traigas en el repo
+COPY mods/ ./mods/
+COPY plugins/ ./plugins/
 
-# Puerto estándar de Minecraft
-EXPOSE 25264
+# 3. Descargar Mohist 1.20.1 (último build) -> se guardará en el volumen
+ADD https://ci.codemc.io/job/MohistMC/job/Mohist-1.20.1/lastSuccessfulBuild/artifact/projects/mohist/build/libs/mohist-1.20.1-*-server.jar /server/mohist.jar
 
+# 4. Puerto estándar
+EXPOSE 25565
+
+# 5. Arrancar
 CMD ["java", "-Xms2G", "-Xmx12G", "-jar", "mohist.jar", "nogui"]

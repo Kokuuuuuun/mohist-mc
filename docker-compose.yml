@@ -7,10 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: minecraft-mohist-1201
     volumes:
-      - mc-world:/server/world
-      - mc-config:/server/config
-      - mc-mods:/server/mods
-      - mc-plugins:/server/plugins
+      - mc-server:/server          # ← TODA la carpeta /server persistente
     environment:
       EULA: "TRUE"
     networks:
@@ -18,10 +15,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  mc-world:
-  mc-config:
-  mc-mods:
-  mc-plugins:
+  mc-server:                       # volumen nombrado
 
 networks:
   coolify:
