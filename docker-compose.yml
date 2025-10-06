@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mohist:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: minecraft-mohist-1201
+    volumes:
+      - mc-world:/server/world
+      - mc-config:/server/config
+      - mc-mods:/server/mods
+      - mc-plugins:/server/plugins
+    environment:
+      EULA: "TRUE"
+    networks:
+      - coolify
+    restart: unless-stopped
+
+volumes:
+  mc-world:
+  mc-config:
+  mc-mods:
+  mc-plugins:
+
+networks:
+  coolify:
+    external: true
+    name: coolify
