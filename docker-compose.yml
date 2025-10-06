@@ -1,4 +1,6 @@
-version: '3.8'
+# @format
+
+version: "3.8"
 
 services:
   # ------------------------------------------------------------------
@@ -17,19 +19,19 @@ services:
     networks:
       - coolify
     expose:
-      - "25565"   # Solo dentro de la red Docker
+      - "25565" # Solo dentro de la red Docker
 
   # ------------------------------------------------------------------
   # Playit Tunnel
   # ------------------------------------------------------------------
   playit:
-    image: playitcloud/playit-agent:latest
+    image: ghcr.io/playit-cloud/playit-agent:latest
     container_name: playit-agent
     restart: unless-stopped
     networks:
       - coolify
     volumes:
-      - ./playit.yml:/playit.yml  # tu archivo de config Playit
+      - ./playit.yml:/playit.yml # tu archivo de config Playit
     command: ["playit", "--config", "/playit.yml"]
 
 # ------------------------------------------------------------------
