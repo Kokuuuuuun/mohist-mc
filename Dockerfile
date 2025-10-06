@@ -12,6 +12,6 @@ COPY server-files/mohist.jar ./mohist.jar
 COPY mods/ ./mods/
 COPY plugins/ ./plugins/
 
-EXPOSE 25264
+EXPOSE 25565
 
-CMD ["java", "-Xms2G", "-Xmx12G", "-jar", "mohist.jar", "nogui"]
+CMD ["java", "-Xms2G", "-Xmx10G", "-jar", "mohist.jar", "nogui"]

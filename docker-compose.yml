@@ -1,22 +1,46 @@
 version: '3.8'
 
 services:
+  # ------------------------------------------------------------------
+  #  Cloudflare Tunnel (TCP) para mc.theoasiss.us
+  # ------------------------------------------------------------------
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: mc-tunnel
+    restart: unless-stopped
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}   # <-- variable en Coolify
+    command: tunnel --no-autoupdate run
+    networks:
+      - coolify
+
+  # ------------------------------------------------------------------
+  #  Servidor Minecraft Mohist 1.20.1
+  # ------------------------------------------------------------------
   mohist:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: minecraft-mohist-1201
     volumes:
-      - mc-server:/server          # ← TODA la carpeta /server persistente
+      - mc-server:/server          # /server completo persistente
     environment:
       EULA: "TRUE"
     networks:
       - coolify
     restart: unless-stopped
+    expose:
+      - "25565"                    # solo visible dentro de la red coolify
 
+# ------------------------------------------------------------------
+#  Volumen persistente (todo /server)
+# ------------------------------------------------------------------
 volumes:
-  mc-server:                       # volumen nombrado
+  mc-server:
 
+# ------------------------------------------------------------------
+#  Red externa que gestiona Coolify
+# ------------------------------------------------------------------
 networks:
   coolify:
     external: true
