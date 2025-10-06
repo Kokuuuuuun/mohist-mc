@@ -31,7 +31,9 @@ services:
     networks:
       - coolify
     volumes:
-      - ./playit.yml:/playit.yml # tu archivo de config Playit
+      - ./playit.yml:/playit.yml
+    environment:
+      SECRET_KEY: "d0c343546f5d0a89d494c43aea0fd9b982ae97cf4ff8cfd0e54fe9e47b8ac95d"
     command: ["playit", "--config", "/playit.yml"]
 
 # ------------------------------------------------------------------
