@@ -9,8 +9,8 @@ services:
     container_name: mc-tunnel
     restart: unless-stopped
     environment:
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN}   # <-- variable en Coolify
-    command: tunnel --no-autoupdate run
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    command: tunnel run --token ${TUNNEL_TOKEN}
     networks:
       - coolify
 
