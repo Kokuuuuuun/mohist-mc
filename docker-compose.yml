@@ -1,6 +1,4 @@
-# @format
-
-version: "3.8"
+version: '3.8'
 
 services:
   # ------------------------------------------------------------------
@@ -10,19 +8,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: minecraft-mohist-1201
+    container_name: mohist
     volumes:
-      - mc-server:/server
+      - mc-server:/server          # persistencia de todo el server
     environment:
       EULA: "TRUE"
-    restart: unless-stopped
     networks:
-      - coolify
+      coolify:
+        aliases:
+          - minecraft             # Alias para usar un nombre corto
+    restart: unless-stopped
     expose:
-      - "25565" # Solo dentro de la red Docker
+      - "25565"                  # Solo visible dentro de la red coolify
 
   # ------------------------------------------------------------------
-  # Playit Tunnel
+  # Playit Agent
   # ------------------------------------------------------------------
   playit:
     image: ghcr.io/playit-cloud/playit-agent:latest
@@ -37,13 +37,13 @@ services:
     command: ["playit", "--config", "/playit.yml"]
 
 # ------------------------------------------------------------------
-# Volumen persistente para Minecraft
+# Volumen persistente del servidor Minecraft
 # ------------------------------------------------------------------
 volumes:
   mc-server:
 
 # ------------------------------------------------------------------
-# Red externa gestionada por Coolify
+# Red externa administrada por Coolify
 # ------------------------------------------------------------------
 networks:
   coolify:

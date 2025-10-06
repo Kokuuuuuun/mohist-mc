@@ -1,10 +1,6 @@
-# @format
-
-# Configuración Playit para Minecraft Mohist 1.20.1
 version: 1
-
 tunnels:
   - name: "Minecraft Mohist 1.20.1"
     proto: tcp
-    local: mohist-isks00wkkw4s4ockgw0wcc4c-210950251007:25565
+    local: minecraft:25565       # Usa el alias definido en el compose
     remote: 25565
