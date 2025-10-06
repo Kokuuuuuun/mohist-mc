@@ -1,4 +1,6 @@
-version: '3.8'
+# @format
+
+version: "3.8"
 
 services:
   # ------------------------------------------------------------------
@@ -10,7 +12,9 @@ services:
     restart: unless-stopped
     environment:
       TUNNEL_TOKEN: ${TUNNEL_TOKEN}
-    command: tunnel run --token ${TUNNEL_TOKEN}
+    command: tunnel --config /etc/cloudflared/config.yml run --token ${TUNNEL_TOKEN}
+    volumes:
+      - ./config/ingress.yaml:/etc/cloudflared/config.yml:ro
     networks:
       - coolify
 
@@ -23,14 +27,30 @@ services:
       dockerfile: Dockerfile
     container_name: minecraft-mohist-1201
     volumes:
-      - mc-server:/server          # /server completo persistente
+      - mc-server:/server # /server completo persistente
     environment:
       EULA: "TRUE"
     networks:
       - coolify
     restart: unless-stopped
     expose:
-      - "25565"                    # solo visible dentro de la red coolify
+      - "25565" # solo visible dentro de la red coolify
+
+  # ------------------------------------------------------------------
+  #  HAProxy - Proxy TCP para Minecraft
+  # ------------------------------------------------------------------
+  haproxy:
+    image: haproxy:alpine
+    container_name: minecraft-haproxy
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      - coolify
+    depends_on:
+      - mohist
+    restart: unless-stopped
+    ports:
+      - "25565:25565" # expone el proxy hacia fuera
 
 # ------------------------------------------------------------------
 #  Volumen persistente (todo /server)
