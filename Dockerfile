@@ -8,7 +8,7 @@ COPY server-files/eula.txt server-files/server.properties ./
 # 2. Tu mohist.jar (desde el repo / LFS)
 COPY server-files/mohist.jar ./mohist.jar
 
-# 3. Mods y plugins que traigas
+# 3. Mods y plugins que traigas otro mas
 COPY mods/ ./mods/
 COPY plugins/ ./plugins/
 
