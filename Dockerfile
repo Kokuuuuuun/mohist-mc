@@ -5,7 +5,7 @@ WORKDIR /server
 COPY server-files/eula.txt server-files/server.properties ./
 
 # 2. Descargar Mohist desde tu subdominio
-ADD https://storage.theoasiss.us/storage/v1/object/public/minecraft-files/mohist.jar /server/mohist.jar
+# ADD https://storage.theoasiss.us/storage/v1/object/public/minecraft-files/mohist.jar /server/mohist.jar
 
 # 3. Descargar y descomprimir mods en /tmp
 # ADD https://storage.theoasiss.us/storage/v1/object/public/minecraft-files/mods.zip /tmp/mods.zip
