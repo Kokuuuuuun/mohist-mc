@@ -9,7 +9,7 @@ COPY server-files/eula.txt server-files/server.properties ./
 COPY server-files/mohist.jar ./mohist.jar
 
 # 3. Mods y plugins que traigas
-# COPY mods/ ./mods/
+COPY mods/ ./mods/
 COPY plugins/ ./plugins/
 
 EXPOSE 25565
