@@ -8,11 +8,11 @@ COPY server-files/eula.txt server-files/server.properties ./
 ADD https://storage.theoasiss.us/storage/v1/object/public/minecraft-files/mohist.jar /server/mohist.jar
 
 # 3. Descargar y descomprimir mods en /tmp
-ADD https://storage.theoasiss.us/storage/v1/object/public/minecraft-files/mods.zip /tmp/mods.zip
-RUN unzip -q /tmp/mods.zip -d /tmp && \
-    mkdir -p /server/mods && \
-    find /tmp -name "*.jar" -exec mv {} /server/mods/ \; && \
-    rm -rf /tmp/mods.zip /tmp/mods 2>/dev/null || true
+# ADD https://storage.theoasiss.us/storage/v1/object/public/minecraft-files/mods.zip /tmp/mods.zip
+# RUN unzip -q /tmp/mods.zip -d /tmp && \
+#   mkdir -p /server/mods && \
+#    find /tmp -name "*.jar" -exec mv {} /server/mods/ \; && \
+#    rm -rf /tmp/mods.zip /tmp/mods 2>/dev/null || true
 
 # (Opcional) mismo truco para plugins
 # ADD https://storage.theoasiss.us/storage/v1/object/public/minecraft-files/plugins.zip /tmp/plugins.zip
