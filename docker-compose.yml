@@ -18,8 +18,9 @@ services:
         aliases:
           - minecraft             # Alias para usar un nombre corto
     restart: unless-stopped
-    expose:
-      - "25565"                  # Solo visible dentro de la red coolify
+    ports:
+      - "25565:25565"   # Minecraft
+      - "25575:25575"   # RCON                # Solo visible dentro de la red coolify
 
   # ------------------------------------------------------------------
   # Playit Agent
